@@ -20,7 +20,7 @@ module.exports = class Cog extends Component {
 	constructor(props) {
 		super(props);
 		Vibration.vibrate();
-		console.log("cccccccccccccccccccccccccccc");
+		//console.log("cccccccccccccccccccccccccccc");
 
 		var {
 			height: deviceHeight,
@@ -29,10 +29,6 @@ module.exports = class Cog extends Component {
 
 		this.state = {
 			counter: 0,
-			refreshing: false,
-			initialPosition: {
-				coords: { longitude: '(tap to refresh)', latitude: '(tap to refresh)', },
-			},
 			deviceHeight,
 			deviceWidth,
 			_animatedValue: new Animated.Value(0),
@@ -53,7 +49,7 @@ module.exports = class Cog extends Component {
 				//console.log("release");
 			},
 			onPanResponderGrant: (evt, gestureState) => {
-				console.log("grant");
+				//console.log("grant");
 				// save current rotation
 				this.setState({
 					savedRotation: this.state._animatedValue._value,
@@ -76,28 +72,7 @@ module.exports = class Cog extends Component {
 		return newAngle;
 	}
 
-	refreshGeo() {
-		console.log("geo");
-		navigator.geolocation.getCurrentPosition(
-			(position) => {
-				this.setState({initialPosition: position});
-			},
-			(error) => console.error(`Geo Error: ${error.message}`),
-			{enableHighAccuracy: false, timeout: 20000, maximumAge: 1000}
-		);
-	}
 
-	_onRefresh() {
-		this.setState({refreshing: true});
-
-		this.state.counter++;
-		this.setState({
-			counter: this.state.counter,
-		});
-		console.log(`onrefresh ${this.state.counter}`);
-
-		this.setState({refreshing: false});
-	}
 
   render() {
 
@@ -110,25 +85,10 @@ module.exports = class Cog extends Component {
       <ScrollView
 				{...this._panResponder.panHandlers}
 				contentContainerStyle={styles.container}
-				/*
-				refreshControl={
-					<RefreshControl
-						refreshing={this.state.refreshing}
-						onRefresh={this._onRefresh.bind(this)}
-					/>
-				}
-				*/
-				onScroll={() => { console.log('onScroll!'); }}
-				scrollEventThrottle={200}
 			>
 
 				<Text style={styles.counter}>
 					Counter: {this.state.counter}
-				</Text>
-
-				<Text style={styles.welcome} onPress={this.refreshGeo.bind(this)}>
-					Lon: {this.state.initialPosition.coords.longitude} {'\n'}
-					Lat: {this.state.initialPosition.coords.latitude}
 				</Text>
 
 				<Animated.Image
@@ -142,23 +102,9 @@ module.exports = class Cog extends Component {
 					}}
 				/>
 
-				<TouchableHighlight
-					onPress={() => this._navigate('nav')}
-					style={styles.nav}
-				>
-					<Text>Menu</Text>
-				</TouchableHighlight>
-
       </ScrollView>
     );
   }
-
-	_navigate(property) {
-		this.props.navigator.push({
-			id: property
-		});
-	}
-
 
 }
 
@@ -170,20 +116,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#111122',
   },
-  counter: {
-    fontSize: 30,
-		color: '#ffffff',
-  },
   nav: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-end',
     backgroundColor: '#333344',
   },
-  welcome: {
+  counter: {
+    fontSize: 30,
 		color: '#ffffff',
-    fontSize: 20,
-    textAlign: 'left',
-    margin: 10,
   },
 });
