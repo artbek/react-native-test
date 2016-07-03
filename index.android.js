@@ -65,7 +65,7 @@ class Test extends Component {
 			>
 				<Navigator
 					//style={styles.container}
-					initialRoute={{id: 'geo', index: 0}}
+					initialRoute={{id: 'cog', index: 0}}
 					renderScene={this.navigatorRenderScene.bind(this)}
 					ref={this._setNavigatorRef.bind(this)}
 				/>
