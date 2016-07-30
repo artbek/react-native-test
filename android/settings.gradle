@@ -1,0 +1,3 @@
+rootProject.name = 'customChromeTabs'
+
+include ':app'
